@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>高频电子线路 · 录音课整理笔记</title>
+  <style>
+    :root {
+      --bg: #f7f8fa;
+      --card: #ffffff;
+      --ink: #1f2937;
+      --muted: #6b7280;
+      --brand: #0f766e;
+      --brand-soft: #ecfdf5;
+      --red: #b91c1c;
+      --red-soft: #fff1f2;
+      --amber: #b45309;
+      --amber-soft: #fffbeb;
+      --line: #e5e7eb;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.75;
+      font-size: 16px;
+    }
+    main {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 24px 16px 72px;
+    }
+    header.hero {
+      background: linear-gradient(135deg, #0f766e 0%, #115e59 100%);
+      color: #fff;
+      border-radius: 20px;
+      padding: 24px 20px;
+      margin-bottom: 18px;
+      box-shadow: 0 12px 28px rgba(15, 118, 110, .18);
+    }
+    header.hero .badge {
+      display: inline-block;
+      background: rgba(255,255,255,.18);
+      border: 1px solid rgba(255,255,255,.35);
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 13px;
+      letter-spacing: .4px;
+    }
+    header.hero h1 {
+      margin: 14px 0 8px;
+      font-size: 26px;
+      line-height: 1.3;
+    }
+    header.hero p {
+      margin: 0;
+      color: rgba(255,255,255,.85);
+      font-size: 14px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 20px 18px;
+      margin: 16px 0;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, .04);
+    }
+    h2 {
+      font-size: 21px;
+      margin: 26px 0 12px;
+      padding-left: 10px;
+      border-left: 5px solid var(--brand);
+      line-height: 1.35;
+    }
+    h3 {
+      font-size: 17px;
+      margin: 20px 0 8px;
+      color: #134e4a;
+    }
+    p { margin: 8px 0; }
+    ul, ol { padding-left: 24px; margin: 8px 0; }
+    li { margin: 4px 0; }
+    code {
+      background: #f1f5f9;
+      border-radius: 7px;
+      padding: 2px 6px;
+      color: #be123c;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: .92em;
+      word-break: break-word;
+    }
+    .formula {
+      display: block;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-left: 4px solid #0f766e;
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin: 12px 0;
+      overflow-x: auto;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      color: #0f172a;
+      font-size: .96em;
+      line-height: 1.65;
+    }
+    .key {
+      background: var(--amber-soft);
+      color: #92400e;
+      padding: 1px 5px;
+      border-radius: 6px;
+      font-weight: 700;
+    }
+    .danger {
+      background: var(--red-soft);
+      color: var(--red);
+      padding: 1px 5px;
+      border-radius: 6px;
+      font-weight: 700;
+    }
+    .note {
+      background: #eff6ff;
+      border-left: 4px solid #2563eb;
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin: 12px 0;
+      color: #1e3a8a;
+    }
+    .derive {
+      background: #fdf4ff;
+      border-left: 4px solid #9333ea;
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin: 12px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0;
+      font-size: 14px;
+      background: #fff;
+    }
+    th, td {
+      border: 1px solid #e2e8f0;
+      padding: 9px 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background: #f0fdfa;
+      color: #115e59;
+      font-weight: 700;
+    }
+    .toc {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+    .toc a {
+      display: block;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 8px 10px;
+      color: #134e4a;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .toc a:hover { border-color: var(--brand); background: var(--brand-soft); }
+    footer {
+      margin-top: 28px;
+      padding: 14px 0;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    @media (max-width: 560px) {
+      body { font-size: 15px; }
+      header.hero h1 { font-size: 22px; }
+      .toc { grid-template-columns: 1fr; }
+      table { font-size: 12.5px; }
+      th, td { padding: 7px 6px; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <header class="hero">
+    <span class="badge">课堂笔记 · 可手机阅读</span>
+    <h1>高频电子线路：录音课整理笔记</h1>
+    <p>来源：指定方向录音 1 转文本结果 · 内容：课程概述、LC 串/并联谐振回路、阻抗变换电路</p>
+  </header>
+
+  <div class="card">
+    <h3>本页标记说明</h3>
+    <p><span class="key">重点</span> 黄色高亮为高频考点；<span class="danger">易错</span> 红色高亮为容易出错处；<span class="derive">推导</span> 紫色框为公式推导过程。</p>
+    <p class="note">语音转写中如“电子接入 / 电子接收”应理解为“高频电子线路”，“几种元件”应为“集总元件”，公式均已按教材符号校正。</p>
+    <div class="toc">
+      <a href="#s1">1. 课程研究对象</a>
+      <a href="#s2">2. 基础概念</a>
+      <a href="#s3">3. 电感线圈高频特性</a>
+      <a href="#s4">4. 电容高频特性</a>
+      <a href="#s5">5. LC 串联谐振回路</a>
+      <a href="#s6">6. LC 并联谐振回路</a>
+      <a href="#s7">7. 串/并联对比</a>
+      <a href="#s8">8. 阻抗变换电路</a>
+      <a href="#s9">9. 功率匹配引子</a>
+      <a href="#s10">10. 一页速记</a>
+    </div>
+  </div>
+
+  <section id="s1">
+    <h2>1. 课程研究对象</h2>
+    <p><span class="key">课程研究内容</span>：无线电通信系统中与高频信号处理有关的基本单元电路。</p>
+    <div class="formula">输入变换器 → 发送设备 → 传输信道 → 接收设备 → 输出变换器</div>
+    <p>课程重点关注 <b>发送设备</b> 和 <b>接收设备</b>，因为它们直接处理高频信号。</p>
+    <p><span class="key">高频频段</span>：本课程所称“高频”为 <code>3 MHz ~ 30 MHz</code>，即 HF 段，对应波长 <code>100 m ~ 10 m</code>。</p>
+    <table>
+      <tr><th>单元电路</th><th>常见位置</th><th>主要作用</th></tr>
+      <tr><td>高频小信号放大器</td><td>接收机前端</td><td>放大微弱高频信号</td></tr>
+      <tr><td>高频功率放大器</td><td>发射机末级</td><td>输出足够的高频功率</td></tr>
+      <tr><td>选频回路</td><td>收/发设备</td><td>选出目标频率，滤除噪声</td></tr>
+    </table>
+    <p>这些电路共同依赖的基础就是 <span class="key">LC 串/并联谐振回路</span>，因此本章先讲高频基础电路。</p>
+  </section>
+
+  <section id="s2">
+    <h2>2. 基础概念</h2>
+    <h3>集总元件与集总电路</h3>
+    <p>“几种元件”是语音转写错误，正确为 <b>集总元件</b>。当电路尺寸远小于工作波长时，可把 R、L、C 的参数看成集中在一个点上。3~30 MHz 波长较长，一般电路仍可用集总模型。</p>
+    <h3>无源与有源</h3>
+    <p><b>无源元件</b>没有内部电源，不向电路提供功率，例如 R、L、C；<b>有源元件</b>能提供能量或增益，例如晶体管、运算放大器。</p>
+    <h3>“特性”指什么</h3>
+    <p>在本课程中，“特性”不是固定值，而是 <span class="key">两个或多个物理量之间的关系</span>。例如幅频特性是幅度与频率的关系，阻抗特性是阻抗与频率的关系。</p>
+  </section>
+
+  <section id="s3">
+    <h2>3. 电感线圈的高频特性</h2>
+    <p>实际电感不是纯 L，而是 <b>有损电感</b>。它有两种等效形式：串联模型（L 与 R₀ 串联）和并联模型（L 与 G₀ 并联）。</p>
+    <h3>品质因数 Q₀</h3>
+    <div class="formula">Q₀ = ω₀ × (储能 / 平均损耗功率)</div>
+    <div class="derive">
+      串联模型电流相同，因此：
+      <div class="formula">Q₀ = (I²·ω₀L) / (I²·R₀) = ω₀L / R₀</div>
+    </div>
+    <p><span class="key">重点</span>：<code>Q₀ = ω₀L / R₀</code>。Q 越高，储能越强、损耗越小，选频特性越尖锐。</p>
+    <h3>阻抗与导纳</h3>
+    <div class="formula">串联模型：Z = R₀ + jωL</div>
+    <div class="formula">并联模型：Y = G₀ + 1/(jωL) = G₀ − j/(ωL)</div>
+    <div class="formula">阻抗角：φ = arctan(Im / Re)</div>
+  </section>
+
+  <section id="s4">
+    <h2>4. 电容的高频特性</h2>
+    <p>电容也有介质损耗、引线电阻等，可用串联模型（C 与 R₀ 串联）或并联模型（C 与 G₀ 并联）表示。</p>
+    <div class="derive">
+      串联模型中容抗为 <code>1/(ωC)</code>，因此：
+      <div class="formula">Q₀ = (1/(ω₀C)) / R₀ = 1/(ω₀C R₀)</div>
+    </div>
+    <p><span class="key">重点</span>：电容的 Q 值常达几千到几万，所以高频电路中一般把电容当作 <b>理想无损元件</b>；电感损耗通常不能忽略。</p>
+    <div class="formula">串联模型：Z = R₀ + 1/(jωC) = R₀ − j/(ωC)</div>
+    <div class="formula">并联模型：Y = G₀ + jωC</div>
+  </section>
+
+  <section id="s5">
+    <h2>5. LC 串联谐振回路</h2>
+    <h3>5.1 阻抗表达式</h3>
+    <div class="formula">Z = R₀ + jωL + 1/(jωC) = R₀ + j(ωL − 1/(ωC))</div>
+    <p>若串入负载 <code>R_L</code>，将 R₀ 换成 <code>R₀ + R_L</code> 即可。</p>
+
+    <h3>5.2 谐振频率推导</h3>
+    <div class="derive">
+      串联回路阻抗模：
+      <div class="formula">|Z| = √(R₀² + (ωL − 1/(ωC))²)</div>
+      要使电流最大，必须让 |Z| 最小，即虚部为零：
+      <div class="formula">ω₀L − 1/(ω₀C) = 0</div>
+      解得：
+      <div class="formula">ω₀ = 1/√(LC)　　f₀ = 1/(2π√(LC))</div>
+    </div>
+    <p><span class="key">重点</span>：串联谐振频率只由 L、C 决定，<span class="danger">空载和有载情况下 f₀ 相同</span>。</p>
+
+    <h3>5.3 品质因数</h3>
+    <div class="formula">空载：Q₀ = ω₀L / R₀ = 1/(ω₀C R₀)</div>
+    <div class="formula">有载：Q_L = ω₀L / (R₀ + R_L) = 1/(ω₀C(R₀ + R_L))</div>
+    <p><span class="danger">易错</span>：接负载后耗能电阻增大，因此 <code>Q_L &lt; Q₀</code>。</p>
+
+    <h3>5.4 阻抗幅频特性</h3>
+    <div class="derive">
+      提出 R：
+      <div class="formula">|Z| = R√(1 + ((ωL − 1/(ωC))/R)²)</div>
+      由 <code>Q = ω₀L/R = 1/(ω₀CR)</code> 得：
+      <div class="formula">ωL/R = Q(ω/ω₀)，　1/(ωCR) = Q(ω₀/ω)</div>
+      因此：
+      <div class="formula">|Z| = R√(1 + Q²(ω/ω₀ − ω₀/ω)²)</div>
+      当 <code>ω = ω₀</code> 时，<code>|Z| = R</code> 最小。
+    </div>
+
+    <h3>5.5 三条特性</h3>
+    <ul>
+      <li><b>阻抗幅频</b>：ω₀ 处 |Z| 最小，呈 V 形凹陷。</li>
+      <li><b>阻抗角</b>：ω = ω₀ 时 φ = 0（阻性）；ω &gt; ω₀ 时 φ &gt; 0（感性）；ω &lt; ω₀ 时 φ &lt; 0（容性）。</li>
+      <li><b>电抗</b>：<code>X_L = ωL</code> 为过原点直线，<code>X_C = −1/(ωC)</code> 为双曲线，交点为 ω₀。</li>
+    </ul>
+  </section>
+
+  <section id="s6">
+    <h2>6. LC 并联谐振回路</h2>
+    <p>并联谐振有两种画法：<b>形式 A</b>（R₀ 与 L 串联后再与 C 并联）和 <b>形式 B</b>（G₀ 与 L 并联后再与 C 并联）。</p>
+
+    <h3>6.1 导纳与谐振频率</h3>
+    <div class="derive">
+      形式 A 中，电感支路导纳：
+      <div class="formula">Y_L = 1/(R₀ + jωL) = R₀/(R₀² + ω²L²) − jωL/(R₀² + ω²L²)</div>
+      电容支路导纳：
+      <div class="formula">Y_C = jωC</div>
+      总导纳虚部：
+      <div class="formula">B = ωC − ωL/(R₀² + ω²L²)</div>
+      谐振时 B = 0：
+      <div class="formula">ω₀C = ω₀L/(R₀² + ω₀²L²)</div>
+      解得：
+      <div class="formula">ω₀ = √(1/(LC) − R₀²/L²)</div>
+    </div>
+    <p><span class="key">重点</span>：令 <code>ω₀∞ = 1/√(LC)</code>、<code>Q₀ = ω₀∞L/R₀</code>，则 <code>ω₀ = ω₀∞√(1 − 1/Q₀²)</code>。实际并联谐振频率略低于理想值；高 Q 时 <code>ω₀ ≈ 1/√(LC)</code>。</p>
+
+    <h3>6.2 谐振电阻</h3>
+    <div class="derive">
+      谐振时等效为纯电阻：
+      <div class="formula">R_p = (R₀² + ω₀²L²) / R₀ = R₀(1 + Q₀²)</div>
+      当 Q₀ ≫ 1 时：
+      <div class="formula">R_p ≈ Q₀² R₀</div>
+    </div>
+    <p><span class="key">重点</span>：并联谐振电阻约为 <code>Q₀²R₀</code>。Q 越高，谐振电阻越大，选频越尖锐，也越便于阻抗匹配。</p>
+
+    <h3>6.3 有载品质因数</h3>
+    <p>并联接负载后总电导增大：<code>G = G₀ + G_L</code>，<code>R_total = 1/G</code>。</p>
+    <div class="formula">Q_L = R_total/(ω₀L) = ω₀C R_total</div>
+    <p><span class="danger">易错</span>：并联回路 Q 为 <code>R/X</code>，串联回路 Q 为 <code>X/R</code>。原因：串联电流相同，功率比消去 I²；并联电压相同，功率比消去 U²。</p>
+
+    <h3>6.4 并联谐振阻抗特性</h3>
+    <ul>
+      <li><b>阻抗幅频</b>：ω₀ 处 |Z| 最大，约为 R_p，偏离后迅速下降，呈山峰形。</li>
+      <li><b>阻抗角</b>：<code>φ ≈ −arctan[Q_L(ω/ω₀ − ω₀/ω)]</code>。</li>
+      <li>ω = ω₀：φ = 0（阻性）；ω &lt; ω₀：φ &gt; 0（感性）；ω &gt; ω₀：φ &lt; 0（容性）。</li>
+    </ul>
+    <p><span class="danger">易错</span>：并联回路在 ω₀ 两侧的阻抗角符号与串联回路正好相反。</p>
+  </section>
+
+  <section id="s7">
+    <h2>7. 串/并联谐振对比表</h2>
+    <table>
+      <tr><th>项目</th><th>串联谐振</th><th>并联谐振</th></tr>
+      <tr><td>谐振频率</td><td><code>1/(2π√(LC))</code></td><td>高 Q 时约 <code>1/(2π√(LC))</code></td></tr>
+      <tr><td>谐振时阻抗</td><td>最小，等于 R</td><td>最大，约为 Q₀²R₀</td></tr>
+      <tr><td>谐振时表现</td><td>电流最大</td><td>回路两端电压最大</td></tr>
+      <tr><td>ω &gt; ω₀</td><td>感性</td><td>容性</td></tr>
+      <tr><td>ω &lt; ω₀</td><td>容性</td><td>感性</td></tr>
+      <tr><td>Q 公式</td><td><code>ω₀L/R = 1/(ω₀CR)</code></td><td><code>R/(ω₀L) = ω₀CR</code></td></tr>
+    </table>
+  </section>
+
+  <section id="s8">
+    <h2>8. 阻抗变换电路</h2>
+    <h3>8.1 串并联阻抗等效变换</h3>
+    <div class="derive">
+      并联支路阻抗：
+      <div class="formula">Z_p = (jX_p·R_p)/(R_p + jX_p)</div>
+      分子分母同乘 <code>R_p − jX_p</code>，实部、虚部分别等于 R_s、X_s。令 <code>Q = |X_s|/R_s</code>，得：
+      <div class="formula">R_p = R_s(1 + Q²)</div>
+      <div class="formula">X_p = X_s(1 + 1/Q²)</div>
+      当 Q ≫ 1 时：<code>R_p ≈ Q²R_s</code>，<code>X_p ≈ X_s</code>。
+    </div>
+    <p><span class="key">重点</span>：此等效只在 <b>同一工作频率 ω</b> 下成立，因为电抗与频率有关。</p>
+
+    <h3>8.2 变压器耦合连接</h3>
+    <p>理想变压器无耗，功率守恒：</p>
+    <div class="formula">U₂²/R_L = U₁²/R_L′　⇒　R_L′ = (U₁/U₂)²R_L = (N₁/N₂)²R_L</div>
+
+    <h3>8.3 自耦变压器耦合连接</h3>
+    <div class="formula">R_L′ = ((N₁ + N₂)/N₂)²R_L</div>
+
+    <h3>8.4 双电容分压耦合连接</h3>
+    <p>C₁、C₂ 串联，负载与 C₂ 并联：</p>
+    <div class="formula">U₁/U₂ = (1/(ωC₁) + 1/(ωC₂))/(1/(ωC₂)) = (C₁ + C₂)/C₁</div>
+    <div class="formula">R_L′ = ((C₁ + C₂)/C₁)²R_L</div>
+
+    <h3>8.5 接入系数 p 的统一公式</h3>
+    <p>对变压器耦合定义：</p>
+    <div class="formula">p = 变换前匝数 / 变换后匝数 = N₂/N₁</div>
+    <table>
+      <tr><th>物理量</th><th>反射关系</th></tr>
+      <tr><td>电阻</td><td><code>R_L′ = R_L/p²</code></td></tr>
+      <tr><td>电导</td><td><code>G_L′ = p²G_L</code></td></tr>
+      <tr><td>电抗/感抗</td><td><code>X_L′ = X_L/p²</code></td></tr>
+      <tr><td>电压</td><td><code>U₁ = U₂/p</code></td></tr>
+      <tr><td>电流</td><td><code>I₁ = pI₂</code></td></tr>
+    </table>
+    <p><span class="danger">易错</span>：p 的方向要明确，变换前 / 变换后搞反，电阻反射公式会变成倒数。</p>
+  </section>
+
+  <section id="s9">
+    <h2>9. 功率传输与匹配网络</h2>
+    <p>录音中特别强调：高频功率放大器输出端如果不做匹配，功率不能有效传输，严重失配甚至可能 <span class="danger">烧坏功放</span>。</p>
+    <p>匹配目标：</p>
+    <ul>
+      <li>纯电阻源：<code>R_L′ = R_source</code>。</li>
+      <li>复阻抗源：<code>Z_L = Z_source*</code>（共轭匹配）。</li>
+    </ul>
+    <p>具体 π 型、T 型、L 型匹配网络属于后续课程内容。</p>
+  </section>
+
+  <section id="s10">
+    <h2>10. 一页速记</h2>
+    <div class="formula">
+      高频定义　3 MHz ~ 30 MHz（HF 段）<br>
+      串联谐振　ω₀ = 1/√(LC)，谐振时 |Z| 最小<br>
+      并联谐振　高 Q 时 ω₀ ≈ 1/√(LC)，谐振时 |Z| 最大<br>
+      串联 Q　　ω₀L/R = 1/(ω₀CR)<br>
+      并联 Q　　R/(ω₀L) = ω₀CR<br>
+      串并联等效　R_p ≈ Q²R_s，X_p ≈ X_s（Q ≫ 1）<br>
+      变压器反射　R_L′ = (N₁/N₂)²R_L = R_L/p²<br>
+      电容分压反射　R_L′ = ((C₁+C₂)/C₁)²R_L
+    </div>
+    <ul>
+      <li>“高频”在课程语境中特指 3~30 MHz。</li>
+      <li>“特性”是关系，不是固定值。</li>
+      <li>串联 Q 是 X/R，并联 Q 是 R/X，但 Q 的物理定义相同。</li>
+      <li>串联谐振阻抗最小、电流最大；并联谐振阻抗最大。</li>
+      <li>串联回路 ω&gt;ω₀ 感性，并联回路 ω&gt;ω₀ 容性。</li>
+      <li>阻抗等效与反射变换都只在某一频率下成立。</li>
+    </ul>
+  </section>
+
+  <footer>
+    本笔记由录音转写稿整理并核对公式生成 · GitHub 仓库：High-Frequency-Electronic-Circuits
+  </footer>
+</main>
+</body>
+</html>
