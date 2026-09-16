@@ -208,6 +208,11 @@
       <a href="#s8">8. 阻抗变换电路</a>
       <a href="#s9">9. 功率匹配引子</a>
       <a href="#s10">10. 一页速记</a>
+      <a href="#s11">附录A Q值能量推导</a>
+      <a href="#s12">附录B 选择性与通频带</a>
+      <a href="#s13">附录C 串并联等效推导</a>
+      <a href="#s14">附录D 最大功率匹配推导</a>
+      <a href="#s15">附录E 高频元件损耗</a>
     </div>
   </div>
 
@@ -430,6 +435,131 @@
       <li>串联回路 ω&gt;ω₀ 感性，并联回路 ω&gt;ω₀ 容性。</li>
       <li>阻抗等效与反射变换都只在某一频率下成立。</li>
     </ul>
+  </section>
+
+  <section id="s11">
+    <h2>附录 A：Q 值的能量本质与推导</h2>
+    <p>品质因数的原始定义不是“电抗除以电阻”，而是能量比：</p>
+    <div class="formula">Q = 2π × (回路最大储能 / 一个周期内损耗的能量)<br>= ω₀ × (回路最大储能 / 平均损耗功率)</div>
+    <p>谐振时，L 与 C 不断交换能量，总储能基本不变，电阻或电导持续耗能。Q 越大，选频越尖锐。</p>
+
+    <h3>A.1 串联 RLC 回路的 Q 推导</h3>
+    <div class="derive">
+      设串联电流：
+      <div class="formula">i(t) = I_m cos(ω₀t)</div>
+      电容电压滞后电流 90°：
+      <div class="formula">v_C(t) = (I_m/(ω₀C)) cos(ω₀t − π/2)</div>
+      电感与电容储能：
+      <div class="formula">W_L(t) = ½Li²(t)，　W_C(t) = ½Cv_C²(t)</div>
+      谐振时 <code>1/(ω₀C) = ω₀L</code>，两项系数相等，总储能恒定：
+      <div class="formula">W_total = W_L + W_C = ½LI_m²</div>
+      电阻平均损耗：
+      <div class="formula">P_avg = ½I_m²R</div>
+      因此：
+      <div class="formula">Q₀ = ω₀W_total/P_avg = ω₀L/R</div>
+    </div>
+
+    <h3>A.2 并联 RLC 回路的 Q 推导</h3>
+    <div class="derive">
+      设并联回路电压：
+      <div class="formula">v(t) = U_m cos(ω₀t)</div>
+      电感电流滞后电压 90°：
+      <div class="formula">i_L(t) = (U_m/(ω₀L)) cos(ω₀t − π/2)</div>
+      谐振时 <code>1/(ω₀L) = ω₀C</code>，总储能：
+      <div class="formula">W_total = W_C + W_L = ½CU_m²</div>
+      电导平均损耗：
+      <div class="formula">P_avg = ½U_m²G</div>
+      因此：
+      <div class="formula">Q₀ = ω₀W_total/P_avg = ω₀C/G = R/(ω₀L)</div>
+    </div>
+    <p><span class="key">重点</span>：串联是电流相同 → <code>Q=X/R</code>；并联是电压相同 → <code>Q=R/X</code>。物理定义相同。</p>
+  </section>
+
+  <section id="s12">
+    <h2>附录 B：谐振回路的选择性与通频带</h2>
+    <h3>B.1 串联谐振的归一化电流</h3>
+    <div class="formula">I(ω) = U/|Z| = U/[R√(1 + Q²(ω/ω₀ − ω₀/ω)²)]</div>
+    <div class="formula">I/I₀ = 1/√(1 + Q²(ω/ω₀ − ω₀/ω)²)</div>
+    <p>令 <code>Δω = ω − ω₀</code>，小失谐时：</p>
+    <div class="formula">ω/ω₀ − ω₀/ω ≈ 2Δω/ω₀</div>
+    <div class="formula">I/I₀ ≈ 1/√(1 + (2QΔω/ω₀)²)</div>
+
+    <h3>B.2 3 dB 带宽</h3>
+    <div class="derive">
+      令 <code>I/I₀ = 1/√2</code>：
+      <div class="formula">(2QΔω/ω₀)² = 1　⇒　2Q|Δf_3dB|/f₀ = 1</div>
+      因此：
+      <div class="formula">BW_3dB = f₀/Q</div>
+    </div>
+    <p><span class="key">重点</span>：Q 越高，通频带越窄，选择性越好。有载时用 <code>Q_L</code>，负载越重带宽越宽。</p>
+    <p>补充：单谐振回路的矩形系数（0.1 电平带宽 / 0.707 电平带宽）理论值约 <code>9.95</code>，远大于理想值 1。</p>
+
+    <h3>B.3 并联谐振的归一化阻抗</h3>
+    <div class="formula">Y = G[1 + jQ(ω/ω₀ − ω₀/ω)]</div>
+    <div class="formula">|Z| = R_p/√(1 + Q²(ω/ω₀ − ω₀/ω)²)</div>
+    <p>通频带同样近似为 <code>BW ≈ f₀/Q</code>。</p>
+    <ul>
+      <li>串联谐振：电压源激励时，谐振时电流最大。</li>
+      <li>并联谐振：电流源激励时，谐振时回路两端电压最大；若用理想电压源激励，则谐振时电源输出电流最小。</li>
+    </ul>
+  </section>
+
+  <section id="s13">
+    <h2>附录 C：串并联阻抗等效的完整代数推导</h2>
+    <div class="derive">
+      并联支路阻抗：
+      <div class="formula">Z_p = (jX_pR_p)/(R_p + jX_p)</div>
+      分子分母同乘 <code>R_p − jX_p</code>，利用 <code>j·(−j)=1</code>：
+      <div class="formula">Z_p = (jX_pR_p² + X_p²R_p)/(R_p² + X_p²)</div>
+      实部与虚部分别为：
+      <div class="formula">Re = X_p²R_p/(R_p²+X_p²)</div>
+      <div class="formula">Im = X_pR_p²/(R_p²+X_p²)</div>
+      令其等于串联支路 <code>R_s + jX_s</code>：
+      <div class="formula">R_s = X_p²R_p/(R_p²+X_p²)</div>
+      <div class="formula">X_s = X_pR_p²/(R_p²+X_p²)</div>
+      两式相除：
+      <div class="formula">X_s/R_s = R_p/X_p = Q</div>
+      代回并反解：
+      <div class="formula">R_p = R_s(1+Q²)</div>
+      <div class="formula">X_p = X_s(1+1/Q²)</div>
+      当 <code>Q ≫ 1</code>：
+      <div class="formula">R_p ≈ Q²R_s，　X_p ≈ X_s</div>
+    </div>
+    <p><span class="key">重点</span>：该变换能把小串联电阻 + 小电抗转换成大并联电阻 + 近似相同电抗，是阻抗匹配与谐振回路接入的核心工具。</p>
+  </section>
+
+  <section id="s14">
+    <h2>附录 D：最大功率传输定理推导</h2>
+    <div class="derive">
+      设源阻抗 <code>Z_s=R_s+jX_s</code>，负载 <code>Z_L=R_L+jX_L</code>。负载有功功率：
+      <div class="formula">P_L = (½|V_s|²R_L)/[(R_s+R_L)²+(X_s+X_L)²]</div>
+      第一步令分母中电抗项为 0：
+      <div class="formula">X_L = −X_s</div>
+      第二步令 <code>dP_L/dR_L=0</code>：
+      <div class="formula">R_L = R_s</div>
+      所以最大功率条件：
+      <div class="formula">Z_L = Z_s*</div>
+    </div>
+    <p><span class="key">重点</span>：匹配网络用无损 L、C 实现“先变电阻、再消电抗”，从而共轭匹配，而不是靠电阻耗能。</p>
+  </section>
+
+  <section id="s15">
+    <h2>附录 E：高频元件损耗从哪里来</h2>
+    <h3>电感</h3>
+    <ul>
+      <li>导线直流电阻：低频即存在。</li>
+      <li>集肤效应：频率升高后电流趋向导体表面，有效截面积减小，交流电阻增大。</li>
+      <li>邻近效应：相邻导线高频电流相互影响，进一步增加损耗。</li>
+      <li>磁芯损耗：磁滞损耗与涡流损耗。</li>
+      <li>分布电容：匝间电容使电感超过自谐振频率后呈容性。</li>
+    </ul>
+    <h3>电容</h3>
+    <ul>
+      <li>电极与引线电阻：等效为串联损耗电阻 R_s。</li>
+      <li>介质损耗与漏电：等效为并联电导 G。</li>
+    </ul>
+    <div class="formula">tanδ = ωCR_s = G/(ωC) = 1/Q</div>
+    <p>优质电容 <code>tanδ</code> 很小、Q 很大，高频近似中常当作无损元件。</p>
   </section>
 
   <footer>
