@@ -190,7 +190,7 @@
   <header class="hero">
     <span class="badge">课堂笔记 · 可手机阅读</span>
     <h1>高频电子线路：录音课整理笔记</h1>
-    <p>来源：指定方向录音 1 转文本结果 · 内容：课程概述、LC 串/并联谐振回路、阻抗变换电路</p>
+    <p>来源：指定方向录音 1、标准录音 13 · 内容：LC 串/并联谐振回路、阻抗变换电路、L/π/T 匹配网络</p>
   </header>
 
   <div class="card">
@@ -213,6 +213,7 @@
       <a href="#s13">附录C 串并联等效推导</a>
       <a href="#s14">附录D 最大功率匹配推导</a>
       <a href="#s15">附录E 高频元件损耗</a>
+      <a href="#s16">附录F 匹配网络</a>
     </div>
   </div>
 
@@ -560,6 +561,98 @@
     </ul>
     <div class="formula">tanδ = ωCR_s = G/(ωC) = 1/Q</div>
     <p>优质电容 <code>tanδ</code> 很小、Q 很大，高频近似中常当作无损元件。</p>
+  </section>
+
+  <section id="s16">
+    <h2>附录 F：高频功率放大器匹配网络</h2>
+    <p>匹配网络用于高频功放输出端，把负载电阻转换成功放所需的最佳电阻，使功率最有效地传给负载。匹配可放在输入端、输出端或级间，原理相同。</p>
+
+    <h3>F.1 直接连接时为什么要求 R_L = R_P</h3>
+    <div class="derive">
+      功放输出端等效为交流电压源 + 输出等效电阻 R_P，负载为天线等 R_L。若直接连线，两端电压相同。设电压振幅 U_cm，有效值 U_cm/√2：
+      <div class="formula">P_O = U_cm²/(2R_P)</div>
+      <div class="formula">P_L = U_cm²/(2R_L)</div>
+      要 P_O = P_L，必须：
+      <div class="formula">R_L = R_P</div>
+    </div>
+    <p><span class="danger">易错</span>：负载与功放输出等效电阻严重不匹配时，功率不能有效传出，可能反射回功放并烧坏功放。</p>
+    <p><span class="key">匹配网络作用</span>：让 <code>R_L′ = R_P</code>，即负载经网络后在功放输出端呈现的等效电阻等于功放最佳负载电阻。</p>
+
+    <h3>F.2 设计基础：串并联等效</h3>
+    <div class="formula">R_p ≈ Q²R_s（Q ≫ 1），　X_p ≈ X_s</div>
+    <ul>
+      <li><b>串并转换</b>：小电阻 + 串联电抗 → 大电阻 + 并联电抗，电阻放大约 Q² 倍。</li>
+      <li><b>并串转换</b>：大电阻 + 并联电抗 → 小电阻 + 串联电抗，电阻缩小约 Q² 倍。</li>
+    </ul>
+
+    <h3>F.3 L 型匹配网络</h3>
+    <p>由两个电抗元件（一串联、一并联）组成，适合 R_high 与 R_low 相差悬殊的情况。</p>
+    <ul>
+      <li>R_L &lt; R_E：串并转换，把低阻放大成高阻。</li>
+      <li>R_L &gt; R_E：并串转换，把高阻缩小成低阻。</li>
+    </ul>
+    <div class="derive">
+      令高阻 R_high、低阻 R_low：
+      <div class="formula">Q = √(R_high/R_low − 1)</div>
+      <div class="formula">X_series = Q · R_low</div>
+      <div class="formula">X_shunt = R_high / Q</div>
+      换算元件值：
+      <div class="formula">L = X_L/ω₀，　C = 1/(ω₀X_C)</div>
+    </div>
+    <p>课程口径：整网有载品质因数 <code>Q_L ≈ Q/2</code>；若题给 Q_L，则先取 <code>Q ≈ 2Q_L</code>。</p>
+    <div class="note">
+      示例：R_E=200 Ω、R_L=8 Ω、f₀=10 MHz 时，Q=√(200/8 −1)≈4.90，X_series≈39.2 Ω，X_shunt≈40.8 Ω。若串联臂用电感：L≈0.62 μH；若并联臂用电容：C≈0.39 nF。
+    </div>
+
+    <h3>F.4 π 型匹配网络</h3>
+    <p>用于 R_E 与 R_L 相差不悬殊的情况，结构为“两个并联臂 + 中间串联臂”，外形像 π，由两个 L 型网络背靠背组成。</p>
+    <div class="derive">
+      变换顺序：先并串（高阻降到中间小电阻），再串并（中间小电阻升到另一侧高阻）。
+      选中间电阻：
+      <div class="formula">R_inner &lt; min(R_E, R_L)</div>
+      左右 L 节 Q：
+      <div class="formula">Q1 = √(R_E/R_inner − 1)，　Q2 = √(R_L/R_inner − 1)</div>
+      两侧并联臂：
+      <div class="formula">X_p1 = R_E/Q1，　X_p2 = R_L/Q2</div>
+      两个 L 节串联臂：
+      <div class="formula">X_s1 = Q1·R_inner，　X_s2 = Q2·R_inner</div>
+      中间串联臂总电抗：
+      <div class="formula">X_s = X_s1 + X_s2 = R_inner(Q1 + Q2)</div>
+    </div>
+    <p><span class="key">计算顺序</span>：从 Q 较大一侧开始。若题给整网 Q_L，按课程口径先取 <code>Q_large ≈ 2Q_L</code>，求出 R_inner 后再求另一侧 Q，最后换算 L、C。</p>
+
+    <h3>F.5 T 型匹配网络</h3>
+    <p>同样用于相差不悬殊的情况，结构为“两个串联臂 + 中间并联臂”，外形像 T，也是两个 L 型网络组成。</p>
+    <div class="derive">
+      变换顺序与 π 型相反：先串并，再并串。
+      选中间高阻：
+      <div class="formula">R_inner &gt; max(R_E, R_L)</div>
+      左右 L 节 Q：
+      <div class="formula">Q1 = √(R_inner/R_E − 1)，　Q2 = √(R_inner/R_L − 1)</div>
+      两侧串联臂：
+      <div class="formula">X_s1 = Q1·R_E，　X_s2 = Q2·R_L</div>
+      两个 L 节等效并联电抗：
+      <div class="formula">X_p1 = R_inner/Q1，　X_p2 = R_inner/Q2</div>
+    </div>
+    <p>中间并联臂用 <b>电纳相加</b> 合成：<code>B_mid = B_p1 + B_p2</code>；若两并联电抗同性质，则 <code>X_mid = X_p1X_p2/(X_p1+X_p2)</code>。</p>
+
+    <h3>F.6 三种网络对比</h3>
+    <table>
+      <tr><th>网络</th><th>元件/结构</th><th>适用情况</th><th>变换顺序</th></tr>
+      <tr><td>L 型</td><td>2 个：1 串联 + 1 并联</td><td>电阻相差悬殊</td><td>一次串并或并串</td></tr>
+      <tr><td>π 型</td><td>3 个：2 并联 + 1 串联</td><td>相差不悬殊，需较高 Q</td><td>并串 → 串并</td></tr>
+      <tr><td>T 型</td><td>3 个：2 串联 + 1 并联</td><td>相差不悬殊，需较高 Q</td><td>串并 → 并串</td></tr>
+    </table>
+
+    <h3>F.7 计算套路</h3>
+    <ol>
+      <li>判断 R_E 与 R_L 的关系和差距。</li>
+      <li>选择 L / π / T 型网络。</li>
+      <li>求 Q：L 型 <code>Q=√(R_high/R_low −1)</code>；π/T 型先定 R_inner 再求 Q1、Q2。</li>
+      <li>求电抗：串联臂 <code>X=Q·R_low</code>，并联臂 <code>X=R_high/Q</code>。</li>
+      <li>按 <code>L=X/ω₀</code>、<code>C=1/(ω₀X)</code> 定元件值。</li>
+      <li>检查串联、并联电抗性质相反，电阻匹配成立。</li>
+    </ol>
   </section>
 
   <footer>
